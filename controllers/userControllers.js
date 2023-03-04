@@ -138,7 +138,9 @@ const deleteUserAccount = expressAsyncHandler(async (req, res) => {
 
 const makeAdmin = expressAsyncHandler(async (req, res) => {
   const { id } = req.body;
-
+  if (id.toString() === req.user._id.toString()) {
+    throw new Error("Vous ne pouvez pas effectuer cette action.");
+  }
   const user = await User.findById(id);
 
   if (user) {
