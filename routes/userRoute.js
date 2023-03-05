@@ -8,11 +8,13 @@ const {
   deleteReservation,
   deleteUserAccount,
   makeAdmin,
+  getUsers,
 } = require("../controllers/userControllers");
 const { userAuth, adminAuth, superAdminAuth } = require("../middleware/auth");
 const router = express();
 
 router.route("/registration").post(userRegistration);
+router.route("/get-users").get(userAuth, getUsers);
 router.route("/login").post(userLogin);
 router.route("/all").get(userAuth, adminAuth, getAllUsers);
 router.route("/delete/:id").delete(userAuth, deleteUserAccount);

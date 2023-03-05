@@ -12,6 +12,8 @@ dotenv.config();
 
 const userRegistration = expressAsyncHandler(async (req, res) => {
   const { name, email, password, phoneNumber, birthday } = req.body;
+
+  console.log(birthday);
   const bd = birthday.split("-");
   const currentYear = new Date().getFullYear();
 
@@ -118,6 +120,16 @@ const userGetProfile = expressAsyncHandler(async (req, res) => {
   res.json({ user, reservations });
 });
 
+const getUsers = expressAsyncHandler(async (req, res) => {
+  const { page } = req.query;
+  const users = await User.find({});
+  const limitUsersToShow = 5;
+  const pages = Math.ceil(users.length / limitUsersToShow);
+  const skip = (page - 1) * limitUsersToShow;
+  const userToSend = await User.find({}).skip(skip).limit(limitUsersToShow);
+  res.json({ userToSend, pageNumber: page, pages });
+});
+
 const getUserReservationHistory = expressAsyncHandler(async (req, res) => {
   const reservations = await Reservation.find({ user: req.user._id });
 
@@ -163,6 +175,7 @@ const makeAdmin = expressAsyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  getUsers,
   userRegistration,
   userLogin,
   userGetProfile,
