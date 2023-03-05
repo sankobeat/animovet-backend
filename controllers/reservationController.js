@@ -1,6 +1,8 @@
 const expressAsyncHandlder = require("express-async-handler");
 const Reservation = require("../models/reservationModel");
 const User = require("../models/userModel");
+const { isValidDate } = require("../utils/validateDate");
+// reservation function
 
 const reserve = expressAsyncHandlder(async (req, res) => {
   const {
@@ -17,6 +19,20 @@ const reserve = expressAsyncHandlder(async (req, res) => {
   const month = date.getMonth() + 1;
   const whatDate = date.getDate();
   const reservedDateFormat = `${year.toString()}-${month.toString()}-${whatDate.toString()}`;
+  const currentDate = new Date();
+  const currentDateYear = currentDate.getFullYear();
+  const currentDateMonth = currentDate.getMonth() + 1;
+  const currentDateDay = currentDate.getDate();
+
+  if (
+    !isValidDate(Number(year), Number(month), Number(whatDate)) ||
+    year < currentDateYear ||
+    month < currentDateMonth ||
+    whatDate < currentDateDay
+  ) {
+    res.status(500);
+    throw new Error("Veuillez entrer une date de naissance valide !");
+  }
 
   const reservedDatAlreadyExist = await Reservation.findOne({
     "reservationDate.date": reservedDateFormat,

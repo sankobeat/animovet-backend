@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const bcryptjs = require("bcryptjs");
 const User = require("../models/userModel");
 const Reservation = require("../models/reservationModel");
-
+const { isValidDate } = require("../utils/validateDate");
 dotenv.config();
 
 // @ url : api/register
@@ -12,6 +12,18 @@ dotenv.config();
 
 const userRegistration = expressAsyncHandler(async (req, res) => {
   const { name, email, password, phoneNumber, birthday } = req.body;
+  const bd = birthday.split("-");
+  const currentYear = new Date().getFullYear();
+
+  if (Number(bd[2]) < 1900 || Number(bd[2]) > currentYear - 16) {
+    res.status(500);
+    throw new Error("Veuillez entrer une date de naissance valide !");
+  }
+
+  if (!isValidDate(Number(bd[2]), Number(bd[1]), Number(bd[0]))) {
+    res.status(500);
+    throw new Error("Veuillez entrer une date de naissance valide !");
+  }
 
   const alreadyExist = await User.findOne({ email });
 
