@@ -115,9 +115,15 @@ const getSingleReservation = expressAsyncHandlder(async (req, res) => {
 });
 
 const getAllReservations = expressAsyncHandlder(async (req, res) => {
-  const reservations = await Reservation.find({});
-
-  res.status(200).send(reservations);
+  const { page } = req.query;
+  const reservationCount = await Reservation.count();
+  const limitReservationToShow = 5;
+  const pages = Math.ceil(reservationCount / limitReservationToShow);
+  const skip = (page - 1) * limitReservationToShow;
+  const reservationToShow = await Reservation.find({})
+    .skip(skip)
+    .limit(limitReservationToShow);
+  res.json({ reservationToShow, pageNumber: page, pages });
 });
 
 const approveReservation = expressAsyncHandlder(async (req, res) => {

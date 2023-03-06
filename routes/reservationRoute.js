@@ -10,7 +10,7 @@ const {
 } = require("../controllers/reservationController");
 const { userAuth, adminAuth } = require("../middleware/auth");
 const router = express.Router();
-
+//"/api/reservation"
 router.route("/register").post(reserve);
 router.route("/reserved-times").post(getReservedTimes);
 router.route("/approved").patch(userAuth, adminAuth, approveReservation);

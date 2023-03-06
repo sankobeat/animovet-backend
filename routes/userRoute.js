@@ -3,7 +3,6 @@ const {
   userRegistration,
   userLogin,
   userGetProfile,
-  getAllUsers,
   getUserReservationHistory,
   deleteReservation,
   deleteUserAccount,
@@ -16,7 +15,6 @@ const router = express();
 router.route("/registration").post(userRegistration);
 router.route("/get-users").get(userAuth, getUsers);
 router.route("/login").post(userLogin);
-router.route("/all").get(userAuth, adminAuth, getAllUsers);
 router.route("/delete/:id").delete(userAuth, deleteUserAccount);
 router.route("/reservation-history").get(userAuth, getUserReservationHistory);
 router.route("/deleteReservation/:id").delete(userAuth, deleteReservation);
