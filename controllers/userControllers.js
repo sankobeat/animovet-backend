@@ -122,9 +122,9 @@ const userGetProfile = expressAsyncHandler(async (req, res) => {
 
 const getUsers = expressAsyncHandler(async (req, res) => {
   const { page } = req.query;
-  const users = await User.find({});
+  const usersCount = await User.count();
   const limitUsersToShow = 5;
-  const pages = Math.ceil(users.length / limitUsersToShow);
+  const pages = Math.ceil(usersCount / limitUsersToShow);
   const skip = (page - 1) * limitUsersToShow;
   const userToSend = await User.find({}).skip(skip).limit(limitUsersToShow);
   res.json({ userToSend, pageNumber: page, pages });
