@@ -24,7 +24,7 @@ const userAuth = expressAsyncHandler(async (req, res, next) => {
 
 const adminAuth = expressAsyncHandler(async (req, res, next) => {
   if (req.user.isAdmin !== true) {
-    res.redirect("/");
+    throw new Error("You are not allowed!");
   } else {
     next();
   }
