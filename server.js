@@ -8,12 +8,14 @@ const port = process.env.PORT || 5000;
 const reservationRouter = require("./routes/reservationRoute");
 const userRoute = require("./routes/userRoute");
 const messagesRoute = require("./routes/messagesRoutes");
+const adminRoute = require("./routes/adminRoutes");
 const { notFound, errorHandler } = require("./middleware/errorHandler");
 app.use(express.json());
 app.use(cors());
 app.use("/api/reservation", reservationRouter);
 app.use("/api/user", userRoute);
 app.use("/api/messages", messagesRoute);
+app.use("/api/admin", adminRoute);
 connectdb();
 app.get("/", (req, res) => {
   res.send("hello");
