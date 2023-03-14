@@ -10,9 +10,10 @@ const {
   getUsers,
 } = require("../controllers/userControllers");
 const { userAuth, adminAuth, superAdminAuth } = require("../middleware/auth");
+const { limiter } = require("../utils/limiter");
 const router = express();
 
-router.route("/registration").post(userRegistration);
+router.route("/registration").post(limiter, userRegistration);
 router.route("/get-users").get(userAuth, adminAuth, getUsers);
 router.route("/login").post(userLogin);
 router.route("/delete/:id").delete(userAuth, adminAuth, deleteUserAccount);

@@ -9,9 +9,10 @@ const {
   adminDeleteReservation,
 } = require("../controllers/reservationController");
 const { userAuth, adminAuth } = require("../middleware/auth");
+const { limiter } = require("../utils/limiter");
 const router = express.Router();
 //"/api/reservation"
-router.route("/register").post(reserve);
+router.route("/register").post(limiter, reserve);
 router.route("/reserved-times").post(getReservedTimes);
 router.route("/approved").patch(userAuth, adminAuth, approveReservation);
 router.route("/done").patch(userAuth, adminAuth, doneReservation);
