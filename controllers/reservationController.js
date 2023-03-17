@@ -31,7 +31,7 @@ const reserve = expressAsyncHandlder(async (req, res) => {
     whatDate < currentDateDay
   ) {
     res.status(500);
-    throw new Error("Veuillez entrer une date de naissance valide !");
+    throw new Error("Veuillez entrer une date de visite valide !");
   }
 
   const reservedDatAlreadyExist = await Reservation.findOne({
