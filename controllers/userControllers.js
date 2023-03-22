@@ -13,7 +13,6 @@ dotenv.config();
 const userRegistration = expressAsyncHandler(async (req, res) => {
   const { name, email, password, phoneNumber, birthday } = req.body;
 
-  console.log(birthday);
   const bd = birthday.split("-");
   const currentYear = new Date().getFullYear();
 
